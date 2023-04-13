@@ -1,0 +1,37 @@
+import sqlite3 as sql
+import os
+from de_en_crypt import *
+from sign_in_up import *
+
+def setup():
+    conn = sql.connect("myDB.db")
+
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "CREATE TABLE if not exists users(id INTEGER PRIMARY KEY, name VARCHAR(255), masterpass VARCHAR(255));"
+    )
+    conn.commit()
+    conn.close()
+
+
+
+setup()
+def main():
+    os.system("cls")
+
+    print("Hello!\n\nYou have two options now:")
+    print("1: Sign in")
+    print("2: Sign up\n")
+    print("3: Exit\n")
+
+    start_choice = input("1/2/3: ")
+
+    if start_choice == "1":
+        sign_in()
+    if start_choice == "2":
+        sign_up()
+
+
+if __name__ == "__main__":
+    main()
