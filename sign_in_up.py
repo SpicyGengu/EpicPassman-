@@ -1,5 +1,7 @@
 import sqlite3 as sql
 from de_en_crypt import *
+import main
+import menus
 
 def sign_up():
     username = input("Username: ")
@@ -12,6 +14,7 @@ def sign_up():
     cursor.execute("INSERT INTO users(name,masterpass) VALUES (?,?);",(username.lower(), encrypt(master_pass,master_pass)))
     conn.commit()
     conn.close()
+    main.main()
 
 def sign_in():
     username = input("Username: ")
@@ -19,7 +22,9 @@ def sign_in():
         master_pass = input("Enter master password: ")
 
         if password_matches(username,master_pass):
-            print("In main frame")
+            menus.logged_in(user_exists(username),master_pass)
+            return
+    main.main()
 
 
 def password_matches(username: str,master_pass):
@@ -36,11 +41,11 @@ def password_matches(username: str,master_pass):
 def user_exists(name: str) -> bool:
     conn = sql.connect("myDB.db")
     cursor = conn.cursor()
-    qur = cursor.execute(f"SELECT * FROM users WHERE name = '{name.lower()}'")
+    qur = cursor.execute(f"SELECT id FROM users WHERE name = '{name.lower()}'")
     fetch = qur.fetchone()
     conn.close()
     print(fetch)
     if (fetch != None):
-        return True
+        return fetch[0]
     else:
         return False

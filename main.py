@@ -1,7 +1,7 @@
 import sqlite3 as sql
 import os
 from de_en_crypt import *
-from sign_in_up import *
+import sign_in_up as siu
 
 def setup():
     conn = sql.connect("myDB.db")
@@ -11,13 +11,16 @@ def setup():
     cursor.execute(
         "CREATE TABLE if not exists users(id INTEGER PRIMARY KEY, name VARCHAR(255), masterpass VARCHAR(255));"
     )
+    cursor.execute(
+        "CREATE TABLE if not exists passwords(id INTEGER PRIMARY KEY, user_id INTEGER, service VARCHAR(255), username VARCHAR(255), password VARCHAR(255), FOREIGN KEY (user_id) REFERENCES users(id));"
+    )
     conn.commit()
     conn.close()
 
 
 
-setup()
 def main():
+    setup()
     os.system("cls")
 
     print("Hello!\n\nYou have two options now:")
@@ -28,9 +31,9 @@ def main():
     start_choice = input("1/2/3: ")
 
     if start_choice == "1":
-        sign_in()
+        siu.sign_in()
     if start_choice == "2":
-        sign_up()
+        siu.sign_up()
 
 
 if __name__ == "__main__":
