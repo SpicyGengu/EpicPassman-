@@ -66,7 +66,7 @@ def view_pass_serv(user_id:int, master_password:str):
     conn.close()
     print(fetch)
     if(fetch != None):
-        print(decrypt(master_password,fetch[0][0]))
+        print(decrypt(master_password,fetch[-1][0]))
     if input("Press key to go back"):
         logged_in(user_id, master_password)
     
